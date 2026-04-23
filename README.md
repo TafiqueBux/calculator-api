@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🧮 Calculator API
 
 A simple and clean **REST API** built with **Node.js + Express** that performs basic arithmetic operations. Includes a **Postman Collection** and **Environment** file for easy testing.
@@ -115,3 +116,6 @@ GitHub: [@your-username](https://github.com/your-username)
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
+=======
+# calculator-api
+>>>>>>> 47fe4d4f33e3a9f587364ba91b6b05590b20cac2
