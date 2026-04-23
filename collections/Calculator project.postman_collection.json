@@ -1,0 +1,1462 @@
+{
+  "info": {
+    "_postman_id": "d78568cc-e9d2-432f-8e0a-34a232b4fd6a",
+    "name": "Calculator project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "38578237",
+    "_collection_link": "https://go.postman.co/collection/38578237-d78568cc-e9d2-432f-8e0a-34a232b4fd6a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "List API",
+      "item": [
+        {
+          "name": "Valid Testing",
+          "item": [
+            {
+              "name": "List",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 200\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(200);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate required fields are present\r",
+                      "pm.test(\"Validate response structure\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"message\");\r",
+                      "    pm.expect(res).to.have.property(\"endpoints\");\r",
+                      "    pm.expect(res).to.have.property(\"usage\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate message\r",
+                      "pm.test(\"Validate message\", function () {\r",
+                      "    pm.expect(res.message).to.include(\"Calculator API is running\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate endpoints array\r",
+                      "pm.test(\"Validate endpoints list\", function () {\r",
+                      "    pm.expect(res.endpoints).to.be.an(\"array\").that.is.not.empty;\r",
+                      "    pm.expect(res.endpoints).to.include(\"POST /add\");\r",
+                      "    pm.expect(res.endpoints).to.include(\"POST /subtract\");\r",
+                      "    pm.expect(res.endpoints).to.include(\"POST /multiply\");\r",
+                      "    pm.expect(res.endpoints).to.include(\"POST /divide\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate usage structure\r",
+                      "pm.test(\"Validate usage object\", function () {\r",
+                      "    pm.expect(res.usage).to.have.property(\"body\");\r",
+                      "    pm.expect(res.usage).to.have.property(\"example\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate request body structure\r",
+                      "pm.test(\"Validate request body fields\", function () {\r",
+                      "    pm.expect(res.usage.body).to.have.property(\"a\");\r",
+                      "    pm.expect(res.usage.body).to.have.property(\"b\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{Base_URL}}/",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Different HTTP Method",
+          "item": [
+            {
+              "name": "List",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 404\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(404);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "PUT",
+                "header": [],
+                "url": {
+                  "raw": "{{Base_URL}}/",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Addition API",
+      "item": [
+        {
+          "name": "Valid Testing",
+          "item": [
+            {
+              "name": "Addition",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 200\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(200);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate all required fields are present\r",
+                      "pm.test(\"Validate all response fields are present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"operation\");\r",
+                      "    pm.expect(res).to.have.property(\"a\");\r",
+                      "    pm.expect(res).to.have.property(\"b\");\r",
+                      "    pm.expect(res).to.have.property(\"result\");\r",
+                      "});\r",
+                      "\r",
+                      "// Optional: Validate calculation logic\r",
+                      "pm.test(\"Validate result is correct (a + b)\", function () {\r",
+                      "    pm.expect(res.result).to.eql(res.a + res.b);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": 10,\r\n    \"b\": 35\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/add",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "add"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Adding extra fields",
+          "item": [
+            {
+              "name": "Addition",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 200\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(200);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate all required fields are present\r",
+                      "pm.test(\"Validate all response fields are present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"operation\");\r",
+                      "    pm.expect(res).to.have.property(\"a\");\r",
+                      "    pm.expect(res).to.have.property(\"b\");\r",
+                      "    pm.expect(res).to.have.property(\"result\");\r",
+                      "});\r",
+                      "\r",
+                      "// Optional: Validate calculation logic\r",
+                      "pm.test(\"Validate result is correct (a + b)\", function () {\r",
+                      "    pm.expect(res.result).to.eql(res.a + res.b);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": 15,\r\n    \"b\": 35,\r\n    \"c\": 25\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/add",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "add"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Missing Fields",
+          "item": [
+            {
+              "name": "Addition",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate exact error message\r",
+                      "pm.test(\"Validate error message\", function () {\r",
+                      "    pm.expect(res.error).to.eql(\"Please provide both 'a' and 'b'\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \r\n    \"b\": 35\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/add",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "add"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Missing Vlaues",
+          "item": [
+            {
+              "name": "Addition",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": 10,\r\n    \"b\": \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/add",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "add"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Invalid Data Types",
+          "item": [
+            {
+              "name": "Addition",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": \"10\",\r\n    \"b\": \"a\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/add",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "add"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Invalid Numeric Values",
+          "item": [
+            {
+              "name": "Addition",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 200\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(200);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate all required fields are present\r",
+                      "pm.test(\"Validate all response fields are present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"operation\");\r",
+                      "    pm.expect(res).to.have.property(\"a\");\r",
+                      "    pm.expect(res).to.have.property(\"b\");\r",
+                      "    pm.expect(res).to.have.property(\"result\");\r",
+                      "});\r",
+                      "\r",
+                      "// Optional: Validate calculation logic\r",
+                      "pm.test(\"Validate result is correct (a + b)\", function () {\r",
+                      "    pm.expect(res.result).to.eql(res.a + res.b);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": -9999999999.2,\r\n    \"b\": 1.1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/add",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "add"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Without Body",
+          "item": [
+            {
+              "name": "Addition",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate exact error message\r",
+                      "pm.test(\"Validate error message\", function () {\r",
+                      "    pm.expect(res.error).to.eql(\"Please provide both 'a' and 'b'\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/add",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "add"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Subtraction API",
+      "item": [
+        {
+          "name": "Valid Testing",
+          "item": [
+            {
+              "name": "Subtraction",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 200\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(200);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate all required fields are present\r",
+                      "pm.test(\"Validate all response fields are present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"operation\");\r",
+                      "    pm.expect(res).to.have.property(\"a\");\r",
+                      "    pm.expect(res).to.have.property(\"b\");\r",
+                      "    pm.expect(res).to.have.property(\"result\");\r",
+                      "});\r",
+                      "\r",
+                      "// Optional: Validate calculation logic\r",
+                      "pm.test(\"Validate result is correct (a - b)\", function () {\r",
+                      "    pm.expect(res.result).to.eql(res.a - res.b);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": 100,\r\n    \"b\": 30\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/subtract",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "subtract"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Missing \"A\" field",
+          "item": [
+            {
+              "name": "Subtraction",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate exact error message\r",
+                      "pm.test(\"Validate error message\", function () {\r",
+                      "    pm.expect(res.error).to.eql(\"Please provide both 'a' and 'b'\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \r\n    \"b\": 30\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/subtract",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "subtract"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Data Type Validation",
+          "item": [
+            {
+              "name": "Subtraction",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": \"10\",\r\n    \"b\": true\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/subtract",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "subtract"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Incorrect Business Logic",
+          "item": [
+            {
+              "name": "Subtraction",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": \"-10\",\r\n    \"b\": 18\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/subtract",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "subtract"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Without Body",
+          "item": [
+            {
+              "name": "Subtraction",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate exact error message\r",
+                      "pm.test(\"Validate error message\", function () {\r",
+                      "    pm.expect(res.error).to.eql(\"Please provide both 'a' and 'b'\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/subtract",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "subtract"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Multiplication API",
+      "item": [
+        {
+          "name": "Valid Testing",
+          "item": [
+            {
+              "name": "Multiplication",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 200\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(200);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate all required fields are present\r",
+                      "pm.test(\"Validate all response fields are present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"operation\");\r",
+                      "    pm.expect(res).to.have.property(\"a\");\r",
+                      "    pm.expect(res).to.have.property(\"b\");\r",
+                      "    pm.expect(res).to.have.property(\"result\");\r",
+                      "});\r",
+                      "\r",
+                      "// Optional: Validate calculation logic\r",
+                      "pm.test(\"Validate result is correct (a * b)\", function () {\r",
+                      "    pm.expect(res.result).to.eql(res.a * res.b);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": 90,\r\n    \"b\": 8\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/multiply",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "multiply"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Missing \"a\" Validation",
+          "item": [
+            {
+              "name": "Multiplication",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate exact error message\r",
+                      "pm.test(\"Validate error message\", function () {\r",
+                      "    pm.expect(res.error).to.eql(\"Please provide both 'a' and 'b'\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \r\n    \"b\": 8\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/multiply",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "multiply"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Data Type Validation",
+          "item": [
+            {
+              "name": "Multiplication",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": \"10\",\r\n    \"b\": true\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/multiply",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "multiply"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Incorrect Business Logic",
+          "item": [
+            {
+              "name": "Multiplication",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": \"-10\",\r\n    \"b\": 18.98\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/multiply",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "multiply"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Without Body",
+          "item": [
+            {
+              "name": "Multiplication",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate exact error message\r",
+                      "pm.test(\"Validate error message\", function () {\r",
+                      "    pm.expect(res.error).to.eql(\"Please provide both 'a' and 'b'\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/multiply",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "multiply"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Division API",
+      "item": [
+        {
+          "name": "Valid Testing",
+          "item": [
+            {
+              "name": "Division",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 200\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(200);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate all required fields are present\r",
+                      "pm.test(\"Validate all response fields are present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"operation\");\r",
+                      "    pm.expect(res).to.have.property(\"a\");\r",
+                      "    pm.expect(res).to.have.property(\"b\");\r",
+                      "    pm.expect(res).to.have.property(\"result\");\r",
+                      "});\r",
+                      "\r",
+                      "// Optional: Validate calculation logic\r",
+                      "pm.test(\"Validate result is correct (a / b)\", function () {\r",
+                      "    pm.expect(res.result).to.eql(res.a / res.b);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": 90,\r\n    \"b\": 9\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/divide",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "divide"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Missing \"a\" Validation",
+          "item": [
+            {
+              "name": "Division",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate exact error message\r",
+                      "pm.test(\"Validate error message\", function () {\r",
+                      "    pm.expect(res.error).to.eql(\"Please provide both 'a' and 'b'\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \r\n    \"b\": 8\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/divide",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "divide"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Data Type Validation",
+          "item": [
+            {
+              "name": "Division",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": \"10\",\r\n    \"b\": true\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/divide",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "divide"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Incorrect Business Logic",
+          "item": [
+            {
+              "name": "Division",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\": \"-10\",\r\n    \"b\": 1.99\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/divide",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "divide"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Without Body",
+          "item": [
+            {
+              "name": "Division",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate error field is present\r",
+                      "pm.test(\"Validate error field is present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"error\");\r",
+                      "});\r",
+                      "\r",
+                      "// Validate exact error message\r",
+                      "pm.test(\"Validate error message\", function () {\r",
+                      "    pm.expect(res.error).to.eql(\"Please provide both 'a' and 'b'\");\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/divide",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "divide"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
