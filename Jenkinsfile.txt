@@ -1,0 +1,62 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'NodeJS'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/TafiqueBux/calculator-api.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                bat 'npm install'
+            }
+        }
+
+        stage('Run Newman Tests') {
+            steps {
+                bat '''
+                    node newman-runner.js
+                '''
+            }
+        }
+
+        stage('Publish HTML Report') {
+            steps {
+                publishHTML(target: [
+                    allowMissing         : false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll              : true,
+                    reportDir            : 'reports',
+                    reportFiles          : 'report.html',
+                    reportName           : 'Newman Test Report'
+                ])
+            }
+        }
+    }
+
+    post {
+        always {
+            emailext(
+                to: 'tafique.bux@gmail.com',
+                subject: "Jenkins Build ${currentBuild.result} - ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                body: """
+                    <h2>Build Report</h2>
+                    <p><b>Project:</b> ${env.JOB_NAME}</p>
+                    <p><b>Build Number:</b> ${env.BUILD_NUMBER}</p>
+                    <p><b>Status:</b> ${currentBuild.result}</p>
+                    <p><b>Duration:</b> ${currentBuild.durationString}</p>
+                    <p>Check full report: <a href="${env.BUILD_URL}Newman_20Test_20Report/">Click Here</a></p>
+                """,
+                mimeType: 'text/html',
+                attachmentsPattern: 'reports/report.html'
+            )
+        }
+    }
+}
