@@ -7,7 +7,7 @@ if (!fs.existsSync('reports')) fs.mkdirSync('reports');
 
 newman.run({
     collection: require('./collections/calculator.json'),
-    environment: require('./environments/dev.json'),
+    environment: require('./environments/Calculator_Environment.postman_environment.json'),
     reporters: ['cli', 'htmlextra'],
     reporter: {
         htmlextra: {
