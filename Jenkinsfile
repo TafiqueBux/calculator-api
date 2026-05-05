@@ -6,26 +6,42 @@ pipeline {
     }
 
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/TafiqueBux/calculator-api.git'
+                checkout scm
             }
         }
+
         stage('Install Dependencies') {
             steps {
                 bat 'npm install'
             }
         }
-        stage('Run Newman Tests') {
+
+        stage('Start Server') {
             steps {
-                bat 'node newman-runner.js'
+                bat 'start /B node server.js'
+                bat 'timeout /t 10'
+            }
+        }
+
+        stage('Run API Tests') {
+            steps {
+                bat 'npm test'
             }
         }
     }
 
     post {
         always {
-            emailext(to: 'tafique.bux@gmail.com', subject: 'Build Complete', body: '<h2>Tests Done</h2>', mimeType: 'text/html', attachmentsPattern: 'reports/report.html')
+            emailext(
+                to: 'tafique.bux@gmail.com',
+                subject: 'Build Result',
+                body: '<h2>Check Jenkins for results</h2>',
+                mimeType: 'text/html',
+                attachmentsPattern: 'newman-report.html'
+            )
         }
     }
 }
