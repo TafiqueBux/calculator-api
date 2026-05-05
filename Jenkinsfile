@@ -1,31 +1,44 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'NodeJS'
-    }
-
     stages {
+
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/TafiqueBux/calculator-api.git'
+                checkout scm
             }
         }
+
         stage('Install Dependencies') {
             steps {
-                bat 'npm install'
+                bat 'npm ci'
             }
         }
-        stage('Run Newman Tests') {
+
+        stage('Start Server') {
             steps {
-                bat 'node newman-runner.js'
+                bat 'start /B node server.js'
+                // wait for server to be up
+                bat 'timeout /t 10'
+            }
+        }
+
+        stage('Run API Tests (Newman)') {
+            steps {
+                bat 'npx newman run collections/<YOUR_COLLECTION>.json -e environments/<YOUR_ENV>.json'
             }
         }
     }
 
     post {
         always {
-            emailext(to: 'tafique.bux@gmail.com', subject: 'Build Complete', body: '<h2>Tests Done</h2>', mimeType: 'text/html', attachmentsPattern: 'reports/report.html')
+            echo 'Build finished'
+        }
+        success {
+            echo '✅ Tests Passed'
+        }
+        failure {
+            echo '❌ Tests Failed'
         }
     }
 }
