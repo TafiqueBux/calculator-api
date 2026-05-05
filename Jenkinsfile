@@ -22,7 +22,7 @@ pipeline {
         stage('Start Server') {
             steps {
                 bat 'start /B node server.js'
-                bat 'timeout /t 10'
+                bat 'ping 127.0.0.1 -n 10 > nul'
             }
         }
 
