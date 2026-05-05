@@ -44,10 +44,13 @@ pipeline {
             )
 
             publishHTML([
-            reportDir: '.',
-            reportFiles: 'newman-report.html',
-            reportName: 'API Test Report'
-        ])
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'reports',
+                reportFiles: 'report.html',
+                reportName: 'Newman Report'
+            ])
         }
     }
 }
