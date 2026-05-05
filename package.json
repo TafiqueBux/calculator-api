@@ -1,0 +1,17 @@
+{
+  "name": "calculator-api",
+  "version": "1.0.0",
+  "description": "A simple REST Calculator API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node newman-runner.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "newman": "^6.0.0",
+    "newman-reporter-htmlextra": "^1.23.1"
+  }
+}
