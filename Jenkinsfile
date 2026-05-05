@@ -42,6 +42,12 @@ pipeline {
                 mimeType: 'text/html',
                 attachmentsPattern: 'newman-report.html'
             )
+
+            publishHTML([
+            reportDir: '.',
+            reportFiles: 'newman-report.html',
+            reportName: 'API Test Report'
+        ])
         }
     }
 }
