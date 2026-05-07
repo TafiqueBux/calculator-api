@@ -72,7 +72,7 @@ describe("Calculator API Tests", () => {
       const res = await request(app).post("/divide").send({ a: 20, b: 4 });
       expect(res.statusCode).toBe(200);
       expect(res.body.result).toBe(5);
-      expect(res.body.operation).toBe("division");
+      expect(res.body.operation).toBe("division");//can do anything
     });
 
     test("should return 400 when dividing by zero", async () => {
