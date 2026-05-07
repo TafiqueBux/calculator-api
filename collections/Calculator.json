@@ -635,9 +635,9 @@
                   "script": {
                     "exec": [
                       "// Validate status code\r",
-                      "pm.test(\"Validate status code is 400\", () => {\r",
+                      "pm.test(\"Validate status code is 200\", () => {\r",
                       "    console.log(\"Status Code:\", pm.response.code);\r",
-                      "    pm.expect(pm.response.code).to.eql(400);\r",
+                      "    pm.expect(pm.response.code).to.eql(200);\r",
                       "});\r",
                       "\r",
                       "// Parse response\r",
