@@ -258,6 +258,70 @@
           ]
         },
         {
+          "name": "Boundary Value Testing",
+          "item": [
+            {
+              "name": "Addition",
+              "event": [
+                {
+                  "listen": "test",
+                  "script": {
+                    "exec": [
+                      "// Validate status code\r",
+                      "pm.test(\"Validate status code is 200\", () => {\r",
+                      "    console.log(\"Status Code:\", pm.response.code);\r",
+                      "    pm.expect(pm.response.code).to.eql(200);\r",
+                      "});\r",
+                      "\r",
+                      "// Parse response\r",
+                      "const res = pm.response.json();\r",
+                      "\r",
+                      "// Validate all required fields are present\r",
+                      "pm.test(\"Validate all response fields are present\", function () {\r",
+                      "    pm.expect(res).to.have.property(\"operation\");\r",
+                      "    pm.expect(res).to.have.property(\"a\");\r",
+                      "    pm.expect(res).to.have.property(\"b\");\r",
+                      "    pm.expect(res).to.have.property(\"result\");\r",
+                      "});\r",
+                      "\r",
+                      "// Optional: Validate calculation logic\r",
+                      "pm.test(\"Validate result is correct (a + b)\", function () {\r",
+                      "    pm.expect(res.result).to.eql(res.a + res.b);\r",
+                      "});"
+                    ],
+                    "type": "text/javascript",
+                    "packages": {},
+                    "requests": {}
+                  }
+                }
+              ],
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"a\":  999999999,\r\n    \"b\": -999999999\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{Base_URL}}/add",
+                  "host": [
+                    "{{Base_URL}}"
+                  ],
+                  "path": [
+                    "add"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
           "name": "Missing Fields",
           "item": [
             {
